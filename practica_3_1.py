@@ -31,3 +31,27 @@ ndf.head(10)
 difer=ndf['Date'].diff()
 equidistante = difer.nunique() == 1
 print("¿Los datos son equidistantes en el tiempo?", equidistante)
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(12, 6))
+sns.heatmap(df.isnull(), cbar=False, cmap='viridis')
+plt.title('Valores Faltantes Antes del Manejo')
+plt.show()
+
+columnas_con_faltantes = ['Rainfall_Bastia_Umbra', 'Depth_to_Groundwater_P24', 'Depth_to_Groundwater_P25',
+                           'Temperature_Bastia_Umbra', 'Temperature_Petrignano', 'Volume_C10_Petrignano',
+                           'Hydrometry_Fiume_Chiascio_Petrignano']
+
+# Agregamos valores valtantes con la media
+for columna in columnas_con_faltantes:
+    df[columna] = df[columna].fillna(df[columna].mean())
+
+# Los números a la izquierda son el número de fila del registro.
+
+plt.figure(figsize=(12, 6))
+sns.heatmap(df.isnull(), cbar=False, cmap='viridis')
+plt.title('Valores Faltantes Después de la Imputación con Media')
+plt.show()
